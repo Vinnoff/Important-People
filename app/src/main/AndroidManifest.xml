@@ -28,5 +28,12 @@
                 android:name="test.dev.importantpeople.di.initializer.ThreeTenBPInitializer"
                 android:value="androidx.startup" />
         </provider>
+        <activity android:name=".presentation.user.UserActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 </manifest>

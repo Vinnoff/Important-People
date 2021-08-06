@@ -11,8 +11,8 @@ data class ResultResponse(
     val location: LocationResponse?,
     val email: String?,
     val login: LoginResponse?,
-    val dob: DobResponse?,
-    val registered: DobResponse?,
+    val dob: DateResponse?,
+    val registered: DateResponse?,
     val phone: String?,
     val cell: String?,
     val id: IdResponse?,
@@ -46,12 +46,7 @@ data class LoginResponse(
     val sha256: String?,
 )
 
-data class DobResponse(
-    val date: String?,
-    val age: Int?,
-)
-
-data class RegisteredResponse(
+data class DateResponse(
     val date: String?,
     val age: Int?,
 )
