@@ -1,16 +1,11 @@
 package test.dev.importantpeople.di
 
-import android.content.Context
-import android.os.Build.VERSION.SDK_INT
-import coil.ImageLoader
-import coil.decode.GifDecoder
-import coil.decode.ImageDecoderDecoder
 import com.facebook.stetho.okhttp3.StethoInterceptor
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
-import org.koin.android.ext.koin.androidContext
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -20,6 +15,8 @@ import test.dev.importantpeople.data.remote.RandomUserService
 import test.dev.importantpeople.data.remote.source.RemoteDataSource
 import test.dev.importantpeople.data.repository.UserRepository
 import test.dev.importantpeople.data.repository.UserRepositoryImpl
+import test.dev.importantpeople.domain.interactors.people.GetRandomUserListUseCase
+import test.dev.importantpeople.presentation.user.UserViewModel
 import timber.log.Timber
 import java.util.concurrent.TimeUnit
 
@@ -34,14 +31,16 @@ class Modules {
             single { RemoteDataSource(get()) }
 
             single<RandomUserService> { createRandomPeopleWebService(get()) }
+
+            single<UserRepository> { UserRepositoryImpl(get()) }
         }
 
         val domainModule = module {
-
+            factory { GetRandomUserListUseCase(get()) }
         }
 
         val presentationModule = module {
-
+            viewModel { UserViewModel(get(), get()) }
         }
     }
 }
