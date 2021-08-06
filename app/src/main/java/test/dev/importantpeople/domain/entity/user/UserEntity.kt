@@ -6,7 +6,8 @@ import java.util.*
 
 data class UserEntity(
     val uuid: String,
-    val title: Gender?,
+    val gender: Gender?,
+    val title: String?,
     val firstname: String,
     val lastname: String,
     val username: String,

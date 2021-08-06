@@ -18,10 +18,11 @@ class GetRandomUserListUseCase(private val userRepository: UserRepository) {
 }
 
 private fun ResultResponse?.toEntity() = this?.run {
-    safeLet(this.login?.uuid, name?.title, name?.first, name?.last, login?.username) { (uuid, title, firstname, lastname, username) ->
+    safeLet(login?.uuid, name?.title, name?.first, name?.last, login?.username) { (uuid, title, firstname, lastname, username) ->
         UserEntity(
             uuid = uuid,
-            title = Gender.fromString(title),
+            title = title,
+            gender = Gender.fromString(gender),
             firstname = firstname,
             lastname = lastname,
             username = username,

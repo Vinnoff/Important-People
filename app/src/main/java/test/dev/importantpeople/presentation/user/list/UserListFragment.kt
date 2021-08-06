@@ -1,6 +1,5 @@
 package test.dev.importantpeople.presentation.user.list
 
-import android.widget.Toast
 import kotlinx.android.synthetic.main.user_list_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import test.dev.importantpeople.R
@@ -20,12 +19,8 @@ class UserListFragment : BaseFragment(R.layout.user_list_fragment) {
     }
 
     override fun initObserver() {
-        userViewModel.liveDataUserList.observe(this, {
+        userViewModel.liveDataUserList.observe(this) {
             userAdapter.data = it
-        })
-
-        userViewModel.liveDataUserInfo.observe(this, {
-            Toast.makeText(context, it.toString(), Toast.LENGTH_SHORT).show()
-        })
+        }
     }
 }

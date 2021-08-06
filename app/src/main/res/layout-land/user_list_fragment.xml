@@ -5,7 +5,8 @@
     android:id="@+id/user_list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+    android:orientation="vertical"
+    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
     app:spanCount="2"
     tools:itemCount="20"
     tools:listitem="@layout/user_item" />

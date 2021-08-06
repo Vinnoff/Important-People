@@ -34,4 +34,12 @@ class UserViewModel(
         _liveDataNavigation.value = UserNavigation.DETAILS.toEvent()
         _liveDataUserInfo.value = liveDataUserList.value?.find { it.uuid == uuid }
     }
+
+    fun onClickPhone(phone: String) {
+        _liveDataNavigation.value = UserNavigation.PHONE(phone).toEvent()
+    }
+
+    fun onClickEmail(email: String) {
+        _liveDataNavigation.value = UserNavigation.EMAIL(email).toEvent()
+    }
 }

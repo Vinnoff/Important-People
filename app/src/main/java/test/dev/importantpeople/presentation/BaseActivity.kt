@@ -1,10 +1,12 @@
 package test.dev.importantpeople.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.annotation.IdRes
 import androidx.annotation.LayoutRes
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LifecycleOwner
 import test.dev.importantpeople.BuildConfig
@@ -41,4 +43,14 @@ abstract class BaseActivity(@LayoutRes val layoutRes: Int) : AppCompatActivity()
             commit()
         }
     }
+}
+
+fun BaseActivity.sendEmail(receiver: String) {
+    val uri = "mailto:$receiver".toUri()
+    startActivity(Intent(Intent.ACTION_SENDTO, uri))
+}
+
+fun BaseActivity.callNumber(number: String) {
+    val uri = "tel:$number".toUri()
+    startActivity(Intent(Intent.ACTION_DIAL, uri))
 }
