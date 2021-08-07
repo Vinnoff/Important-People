@@ -65,7 +65,7 @@ private fun LocationResponse?.toEntity() = this?.run {
             city = city,
             state = state,
             country = country,
-            postalCode = (postcode as? Double)?.toString() ?: postcode as? String,
+            postalCode = (postcode as? Double)?.toInt()?.toString() ?: postcode as? String,
             coordinates = safeLet(coordinates?.latitude, coordinates?.longitude) { latitude, longitude ->
                 CoordinatesEntity(
                     latitude = latitude,

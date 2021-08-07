@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:showIn="@layout/user_activity"
-    android:background="@color/dark_grey">
+    android:background="@color/dark_grey"
+    tools:showIn="@layout/user_activity">
 
     <com.google.android.material.imageview.ShapeableImageView
         android:id="@+id/user_details_avatar"
@@ -20,13 +20,25 @@
         tools:src="@tools:sample/avatars" />
 
     <ImageView
+        android:id="@+id/user_details_flag"
+        android:layout_width="wrap_content"
+        android:layout_height="24dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toTopOf="@id/user_details_name"
+        app:layout_constraintEnd_toStartOf="@id/user_details_gender"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="@id/user_details_name"
+        app:layout_constraintTop_toTopOf="@id/user_details_avatar"
+        tools:src="@tools:sample/backgrounds/scenic" />
+
+    <ImageView
         android:id="@+id/user_details_gender"
         android:layout_width="24dp"
         android:layout_height="24dp"
         app:layout_constraintBottom_toTopOf="@id/user_details_name"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintStart_toStartOf="@id/user_details_name"
+        app:layout_constraintStart_toEndOf="@id/user_details_flag"
         app:layout_constraintTop_toTopOf="@id/user_details_avatar"
         tools:src="@drawable/ic_female" />
 

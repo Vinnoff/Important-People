@@ -13,7 +13,8 @@
             android:id="@+id/user_details_phone"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="8dp"
             android:drawablePadding="8dp"
             android:textAlignment="center"
             app:drawableTopCompat="@drawable/ic_phone"
@@ -21,13 +22,15 @@
             app:layout_constraintEnd_toStartOf="@id/user_details_cell"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
             tools:text="@tools:sample/us_phones" />
 
         <TextView
             android:id="@+id/user_details_cell"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_marginHorizontal="4dp"
+            android:layout_marginVertical="8dp"
             android:drawablePadding="8dp"
             android:textAlignment="center"
             app:drawableTopCompat="@drawable/ic_smartphone"
@@ -35,13 +38,15 @@
             app:layout_constraintEnd_toStartOf="@id/user_details_email"
             app:layout_constraintStart_toEndOf="@id/user_details_phone"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
             tools:text="@tools:sample/lorem" />
 
         <TextView
             android:id="@+id/user_details_email"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_margin="12dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginEnd="8dp"
             android:drawablePadding="8dp"
             android:textAlignment="center"
             app:drawableTopCompat="@drawable/ic_mail"
@@ -49,6 +54,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@id/user_details_cell"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0"
             tools:text="@tools:sample/lorem" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

@@ -10,6 +10,7 @@ import test.dev.importantpeople.R
 import test.dev.importantpeople.common.utils.load
 import test.dev.importantpeople.domain.entity.user.ContactsEntity
 import test.dev.importantpeople.domain.entity.user.LocationEntity
+import test.dev.importantpeople.domain.entity.user.UserData
 import test.dev.importantpeople.presentation.BaseFragment
 import test.dev.importantpeople.presentation.user.UserViewModel
 
@@ -29,14 +30,20 @@ class UserDetailsFragment : BaseFragment(R.layout.user_details_fragment) {
 
     override fun initObserver() {
         userViewModel.liveDataUserInfo.observe(this) { entity ->
-            user_details_avatar.load(entity.pictures?.normal)
-            user_details_name.text = "${if (entity.title != null) entity.title + " " else ""}${entity.firstname} ${entity.lastname}"
-            user_details_gender.isVisible = entity.gender != null
-            if (entity.gender != null) user_details_gender.setImageDrawable(ContextCompat.getDrawable(requireContext(), entity.gender.drawableRes))
-            user_details_username.text = entity.username
+            handleHeader(entity)
             handleContactInfo(entity.contacts)
             handleLocationInfo(entity.location)
         }
+    }
+
+    private fun handleHeader(entity: UserData) {
+        user_details_avatar.load(entity.pictures?.normal)
+        user_details_name.text = "${if (entity.title != null) entity.title + " " else ""}${entity.firstname} ${entity.lastname}"
+        user_details_gender.isVisible = entity.gender != null
+        if (entity.gender != null) user_details_gender.setImageDrawable(ContextCompat.getDrawable(requireContext(), entity.gender.drawableRes))
+        user_details_username.text = entity.username
+        user_details_flag.isVisible = entity.nationality != null
+        user_details_flag.load("https://www.countryflags.io/${entity.nationality?.toLanguageTag()}/flat/64.png")
     }
 
     private fun handleContactInfo(contacts: ContactsEntity?) {
