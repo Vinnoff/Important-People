@@ -5,6 +5,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 import test.dev.importantpeople.R
 import test.dev.importantpeople.presentation.BaseActivity
 import test.dev.importantpeople.presentation.callNumber
+import test.dev.importantpeople.presentation.displayMap
 import test.dev.importantpeople.presentation.sendEmail
 import test.dev.importantpeople.presentation.user.details.UserDetailsFragment
 import test.dev.importantpeople.presentation.user.list.UserListFragment
@@ -27,8 +28,9 @@ class UserActivity : BaseActivity(R.layout.user_activity) {
                         .replace(R.id.user_details_fragment, detailsFragment)
                         .addToBackStack(detailsFragment::class.java.toString())
                         .commit()
-                    is UserNavigation.EMAIL -> sendEmail(nav.email)
-                    is UserNavigation.PHONE -> callNumber(nav.phone)
+                    is UserNavigation.EMAIL -> sendEmail(receiver = nav.email)
+                    is UserNavigation.PHONE -> callNumber(number = nav.phone)
+                    is UserNavigation.NAVIGATION -> displayMap(lat = nav.latitude, long = nav.longitude, name = nav.username)
                 }
             }
         }

@@ -5,6 +5,8 @@ import kotlinx.android.synthetic.main.user_details_fragment.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import test.dev.importantpeople.R
 import test.dev.importantpeople.common.utils.load
+import test.dev.importantpeople.domain.entity.user.ContactsEntity
+import test.dev.importantpeople.domain.entity.user.LocationEntity
 import test.dev.importantpeople.presentation.BaseFragment
 import test.dev.importantpeople.presentation.user.UserViewModel
 
@@ -26,21 +28,41 @@ class UserDetailsFragment : BaseFragment(R.layout.user_details_fragment) {
         userViewModel.liveDataUserInfo.observe(this) { entity ->
             user_details_avatar.load(entity.pictures?.normal)
             user_details_name.text = "${if (entity.title != null) entity.title + " " else ""}${entity.firstname} ${entity.lastname}"
-            user_details_contact_card.isVisible = entity.contacts != null
-            entity.contacts?.let { contacts ->
-                user_details_phone.apply {
-                    isVisible = contacts.phone != null
-                    text = contacts.phone
-                }
-                user_details_cell.apply {
-                    isVisible = contacts.cell != null
-                    text = contacts.cell
-                }
-                user_details_email.apply {
-                    isVisible = contacts.email != null
-                    text = contacts.email
+            handleContactInfo(entity.contacts)
+            handleLocationInfo(entity.username, entity.location)
+        }
+    }
+
+    private fun handleContactInfo(contacts: ContactsEntity?) {
+        user_details_contact_card.isVisible = contacts != null
+        if (contacts != null) {
+            user_details_phone.apply {
+                isVisible = contacts.phone != null
+                text = contacts.phone
+            }
+            user_details_cell.apply {
+                isVisible = contacts.cell != null
+                text = contacts.cell
+            }
+            user_details_email.apply {
+                isVisible = contacts.email != null
+                text = contacts.email
+            }
+        }
+    }
+
+
+    private fun handleLocationInfo(username: String, location: LocationEntity?) {
+        user_details_location.isVisible = location != null
+        if (location != null) {
+            location.coordinates?.let { coordinates ->
+                user_details_navigation.setOnClickListener {
+                    userViewModel.onClickNavigation(username, coordinates.latitude, coordinates.longitude)
                 }
             }
+            user_details_street.text = location.street
+            user_details_city.text = "${location.city} (${location.postalCode})"
+            user_details_country.text = "${location.state} - ${location.country}"
         }
     }
 }
