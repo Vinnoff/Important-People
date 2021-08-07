@@ -12,14 +12,19 @@ import test.dev.importantpeople.domain.entity.user.*
 import java.util.*
 
 class GetRandomUserListUseCase(private val userRepository: UserRepository) {
-    suspend fun invoke(): List<UserEntity>? {
-        return userRepository.getRandomUserList()?.results?.mapNotNull { it.toEntity() }
+    suspend fun invoke(page: Int): UserEntity {
+        val data = userRepository.getRandomUserList(page)?.results?.mapNotNull { it.toEntity() }
+        return when {
+            data == null -> UserEntity.ERROR
+            data.isEmpty() -> UserEntity.EMPTY_DATA
+            else -> UserEntity.SUCCESS(data)
+        }
     }
 }
 
 private fun ResultResponse?.toEntity() = this?.run {
     safeLet(login?.uuid, name?.title, name?.first, name?.last, login?.username) { (uuid, title, firstname, lastname, username) ->
-        UserEntity(
+        UserData(
             uuid = uuid,
             title = title,
             gender = Gender.fromString(gender),

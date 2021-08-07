@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.user_item.view.*
 import test.dev.importantpeople.R
 import test.dev.importantpeople.common.utils.load
-import test.dev.importantpeople.domain.entity.user.UserEntity
+import test.dev.importantpeople.domain.entity.user.UserData
 
 class UserAdapter(val onClick: (id: String) -> Unit) : RecyclerView.Adapter<UserAdapter.ViewHolder>() {
-    private val _data = arrayListOf<UserEntity>()
-    var data: List<UserEntity>
+    private val _data = arrayListOf<UserData>()
+    var data: List<UserData>
         get() = _data
         set(value) {
             _data.clear()
@@ -30,7 +30,7 @@ class UserAdapter(val onClick: (id: String) -> Unit) : RecyclerView.Adapter<User
     }
 
     inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        fun bind(content: UserEntity) = with(itemView) {
+        fun bind(content: UserData) = with(itemView) {
             user_item_avatar.load(content.pictures?.thumbnail)
             user_item_text.text = "${content.firstname}\n${content.lastname}"
             user_item_card.setOnClickListener { onClick.invoke(content.uuid) }

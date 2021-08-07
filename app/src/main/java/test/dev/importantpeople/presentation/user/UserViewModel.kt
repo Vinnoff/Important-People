@@ -4,11 +4,15 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.launch
+import test.dev.importantpeople.common.FIRST_PAGE
+import test.dev.importantpeople.common.utils.CustomCoroutineExceptionHandler
+import test.dev.importantpeople.domain.entity.user.UserData
 import test.dev.importantpeople.domain.entity.user.UserEntity
 import test.dev.importantpeople.domain.interactors.people.GetRandomUserListUseCase
 import test.dev.importantpeople.presentation.BaseViewModel
 import test.dev.importantpeople.presentation.Event
 import test.dev.importantpeople.presentation.toEvent
+import test.dev.importantpeople.presentation.user.list.UserViewState
 
 class UserViewModel(
     private val getRandomUserListUseCase: GetRandomUserListUseCase,
@@ -18,21 +22,22 @@ class UserViewModel(
     private val _liveDataNavigation: MutableLiveData<Event<UserNavigation>> = MutableLiveData()
     val liveDataNavigation: LiveData<Event<UserNavigation>> get() = _liveDataNavigation
 
-    private val _liveDataUserList: MutableLiveData<List<UserEntity>> = MutableLiveData()
-    val liveDataUserList: LiveData<List<UserEntity>> get() = _liveDataUserList
-    private val _liveDataUserInfo: MutableLiveData<UserEntity> = MutableLiveData()
-    val liveDataUserInfo: LiveData<UserEntity> get() = _liveDataUserInfo
+    private val _liveDataUserList: MutableLiveData<UserViewState> = MutableLiveData()
+    val liveDataUserList: LiveData<UserViewState> get() = _liveDataUserList
+    private val userList get() = (liveDataUserList.value as? UserViewState.SUCCESS)?.data
+    private val _liveDataUserInfo: MutableLiveData<UserData> = MutableLiveData()
+    val liveDataUserInfo: LiveData<UserData> get() = _liveDataUserInfo
+
+    private var page = FIRST_PAGE
 
     init {
         _liveDataNavigation.value = UserNavigation.LIST.toEvent()
-        launch {
-            _liveDataUserList.value = getRandomUserListUseCase.invoke()
-        }
+        getUserList(page)
     }
 
     fun onUserSelected(uuid: String) {
         _liveDataNavigation.value = UserNavigation.DETAILS.toEvent()
-        _liveDataUserInfo.value = liveDataUserList.value?.find { it.uuid == uuid }
+        _liveDataUserInfo.value = userList?.find { it.uuid == uuid }
     }
 
     fun onClickPhone(phone: String) {
@@ -45,5 +50,28 @@ class UserViewModel(
 
     fun onClickNavigation(street: String, city: String, country: String) {
         _liveDataNavigation.value = UserNavigation.NAVIGATION(street, city, country).toEvent()
+    }
+
+    fun onClickPrevious() {
+        getUserList(--page)
+    }
+
+    fun onClickNext() {
+        getUserList(++page)
+    }
+
+    private fun getUserList(pagination: Int) {
+        _liveDataUserList.value = UserViewState.LOADER
+        launch(CustomCoroutineExceptionHandler { _liveDataUserList.value = UserViewState.ERROR }) {
+            _liveDataUserList.value = getRandomUserListUseCase.invoke(pagination).toViewState()
+        }
+    }
+
+    private fun UserEntity.toViewState(): UserViewState {
+        return when (this) {
+            is UserEntity.EMPTY_DATA -> UserViewState.EMPTY_DATA
+            is UserEntity.ERROR -> UserViewState.ERROR
+            is UserEntity.SUCCESS -> UserViewState.SUCCESS(page, data)
+        }
     }
 }

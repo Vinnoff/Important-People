@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Important People</string>
+    <string name="_next">Suivant</string>
+    <string name="_previous">Précédant</string>
 </resources>
