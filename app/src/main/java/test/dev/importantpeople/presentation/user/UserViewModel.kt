@@ -60,18 +60,24 @@ class UserViewModel(
         getUserList(++page)
     }
 
+    fun onListEnded() {
+        if (_liveDataUserList.value is UserViewState.LOADER) return
+        getUserList(++page)
+    }
+
     private fun getUserList(pagination: Int) {
+        val userList = userList
         _liveDataUserList.value = UserViewState.LOADER
         launch(CustomCoroutineExceptionHandler { _liveDataUserList.value = UserViewState.ERROR }) {
-            _liveDataUserList.value = getRandomUserListUseCase.invoke(pagination).toViewState()
+            _liveDataUserList.value = getRandomUserListUseCase.invoke(pagination).toViewState(userList)
         }
     }
 
-    private fun UserEntity.toViewState(): UserViewState {
+    private fun UserEntity.toViewState(userList: List<UserData>?): UserViewState {
         return when (this) {
             is UserEntity.EMPTY_DATA -> UserViewState.EMPTY_DATA
             is UserEntity.ERROR -> UserViewState.ERROR
-            is UserEntity.SUCCESS -> UserViewState.SUCCESS(page, data)
+            is UserEntity.SUCCESS -> UserViewState.SUCCESS(page, userList?.plus(data) ?: data)
         }
     }
 }
