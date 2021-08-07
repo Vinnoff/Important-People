@@ -49,6 +49,14 @@ class UserListFragment : BaseFragment(R.layout.user_list_fragment) {
                 is UserViewState.EMPTY_DATA -> showError("Empty data")
                 is UserViewState.ERROR -> showError()
                 is UserViewState.SUCCESS -> handleData(viewState.data)
+                is UserViewState.EMPTY_OLD_DATA -> {
+                    showError("Empty data")
+                    handleData(viewState.data)
+                }
+                is UserViewState.ERROR_OLD_DATA -> {
+                    showError()
+                    handleData(viewState.data)
+                }
             }
         }
     }

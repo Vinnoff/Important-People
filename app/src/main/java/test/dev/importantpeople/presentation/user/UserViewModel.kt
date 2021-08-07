@@ -52,14 +52,6 @@ class UserViewModel(
         _liveDataNavigation.value = UserNavigation.NAVIGATION(street, city, country).toEvent()
     }
 
-    fun onClickPrevious() {
-        getUserList(--page)
-    }
-
-    fun onClickNext() {
-        getUserList(++page)
-    }
-
     fun onListEnded() {
         if (_liveDataUserList.value is UserViewState.LOADER) return
         getUserList(++page)
@@ -75,9 +67,9 @@ class UserViewModel(
 
     private fun UserEntity.toViewState(userList: List<UserData>?): UserViewState {
         return when (this) {
-            is UserEntity.EMPTY_DATA -> UserViewState.EMPTY_DATA
-            is UserEntity.ERROR -> UserViewState.ERROR
-            is UserEntity.SUCCESS -> UserViewState.SUCCESS(page, userList?.plus(data) ?: data)
+            is UserEntity.EMPTY_DATA -> if (userList != null) UserViewState.EMPTY_OLD_DATA(userList) else UserViewState.EMPTY_DATA
+            is UserEntity.ERROR -> if (userList != null) UserViewState.ERROR_OLD_DATA(userList) else UserViewState.ERROR
+            is UserEntity.SUCCESS -> UserViewState.SUCCESS(userList?.plus(data) ?: data)
         }
     }
 }

@@ -35,7 +35,7 @@ private fun ResultResponse?.toEntity() = this?.run {
             contacts = getContacts(email, phone, cell),
             birthday = tryOrNull { dob?.date?.toLocalDateTime(DateTimeFormatter.ISO_ZONED_DATE_TIME) },
             registeredDate = tryOrNull { registered?.date?.toLocalDateTime(DateTimeFormatter.ISO_ZONED_DATE_TIME) },
-            nationality = tryOrNull { Locale.forLanguageTag(nat!!) },
+            nationality = tryOrNull { Locale("", nat!!) },
             location = location.toEntity(),
         )
     }

@@ -43,7 +43,7 @@ class UserDetailsFragment : BaseFragment(R.layout.user_details_fragment) {
         if (entity.gender != null) user_details_gender.setImageDrawable(ContextCompat.getDrawable(requireContext(), entity.gender.drawableRes))
         user_details_username.text = entity.username
         user_details_flag.isVisible = entity.nationality != null
-        user_details_flag.load("https://www.countryflags.io/${entity.nationality?.toLanguageTag()}/flat/64.png")
+        user_details_flag.load("https://www.countryflags.io/${entity.nationality?.country}/flat/64.png")
     }
 
     private fun handleContactInfo(contacts: ContactsEntity?) {

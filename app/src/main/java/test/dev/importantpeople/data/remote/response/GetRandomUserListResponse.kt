@@ -2,7 +2,6 @@ package test.dev.importantpeople.data.remote.response
 
 data class GetRandomUserListResponse(
     val results: List<ResultResponse>?,
-    val info: InfoResponse?,
 )
 
 data class ResultResponse(
@@ -15,7 +14,6 @@ data class ResultResponse(
     val registered: DateResponse?,
     val phone: String?,
     val cell: String?,
-    val id: IdResponse?,
     val picture: PictureResponse?,
     val nat: String?,
 )
@@ -33,27 +31,15 @@ data class LocationResponse(
     val country: String?,
     val postcode: Any?,
     val coordinates: CoordinatesResponse?,
-    val timezone: TimezoneResponse?,
 )
 
 data class LoginResponse(
     val uuid: String?,
     val username: String?,
-    val password: String?,
-    val salt: String?,
-    val md5: String?,
-    val sha1: String?,
-    val sha256: String?,
 )
 
 data class DateResponse(
     val date: String?,
-    val age: Int?,
-)
-
-data class IdResponse(
-    val name: String?,
-    val value: String?,
 )
 
 data class PictureResponse(
@@ -70,16 +56,4 @@ data class StreetResponse(
 data class CoordinatesResponse(
     val latitude: String?,
     val longitude: String?,
-)
-
-data class TimezoneResponse(
-    val offset: String?,
-    val description: String?,
-)
-
-data class InfoResponse(
-    val seed: String?,
-    val results: Int?,
-    val page: Int?,
-    val version: String?,
 )
