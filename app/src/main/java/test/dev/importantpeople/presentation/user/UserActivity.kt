@@ -21,16 +21,16 @@ class UserActivity : BaseActivity(R.layout.user_activity) {
         userViewModel.liveDataNavigation.observe(this) { event ->
             event.getContentIfNotHandled()?.let { nav ->
                 when (nav) {
-                    UserNavigation.LIST -> supportFragmentManager.beginTransaction()
+                    is UserNavigation.LIST -> supportFragmentManager.beginTransaction()
                         .replace(R.id.user_list_fragment, listFragment)
                         .commit()
-                    UserNavigation.DETAILS -> supportFragmentManager.beginTransaction()
+                    is UserNavigation.DETAILS -> supportFragmentManager.beginTransaction()
                         .replace(R.id.user_details_fragment, detailsFragment)
                         .addToBackStack(detailsFragment::class.java.toString())
                         .commit()
                     is UserNavigation.EMAIL -> sendEmail(receiver = nav.email)
                     is UserNavigation.PHONE -> callNumber(number = nav.phone)
-                    is UserNavigation.NAVIGATION -> displayMap(lat = nav.latitude, long = nav.longitude, name = nav.username)
+                    is UserNavigation.NAVIGATION -> displayMap(street = nav.street, city = nav.city, country = nav.country)
                 }
             }
         }

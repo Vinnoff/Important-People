@@ -1,7 +1,10 @@
 package test.dev.importantpeople.presentation.user.details
 
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import kotlinx.android.synthetic.main.user_details_contacts.*
 import kotlinx.android.synthetic.main.user_details_fragment.*
+import kotlinx.android.synthetic.main.user_details_location.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import test.dev.importantpeople.R
 import test.dev.importantpeople.common.utils.load
@@ -28,13 +31,16 @@ class UserDetailsFragment : BaseFragment(R.layout.user_details_fragment) {
         userViewModel.liveDataUserInfo.observe(this) { entity ->
             user_details_avatar.load(entity.pictures?.normal)
             user_details_name.text = "${if (entity.title != null) entity.title + " " else ""}${entity.firstname} ${entity.lastname}"
+            user_details_gender.isVisible = entity.gender != null
+            if (entity.gender != null) user_details_gender.setImageDrawable(ContextCompat.getDrawable(requireContext(), entity.gender.drawableRes))
+            user_details_username.text = entity.username
             handleContactInfo(entity.contacts)
-            handleLocationInfo(entity.username, entity.location)
+            handleLocationInfo(entity.location)
         }
     }
 
     private fun handleContactInfo(contacts: ContactsEntity?) {
-        user_details_contact_card.isVisible = contacts != null
+        user_details_contacts.isVisible = contacts != null
         if (contacts != null) {
             user_details_phone.apply {
                 isVisible = contacts.phone != null
@@ -52,13 +58,11 @@ class UserDetailsFragment : BaseFragment(R.layout.user_details_fragment) {
     }
 
 
-    private fun handleLocationInfo(username: String, location: LocationEntity?) {
+    private fun handleLocationInfo(location: LocationEntity?) {
         user_details_location.isVisible = location != null
         if (location != null) {
-            location.coordinates?.let { coordinates ->
-                user_details_navigation.setOnClickListener {
-                    userViewModel.onClickNavigation(username, coordinates.latitude, coordinates.longitude)
-                }
+            user_details_navigation.setOnClickListener {
+                userViewModel.onClickNavigation(location.street, location.city, location.country)
             }
             user_details_street.text = location.street
             user_details_city.text = "${location.city} (${location.postalCode})"

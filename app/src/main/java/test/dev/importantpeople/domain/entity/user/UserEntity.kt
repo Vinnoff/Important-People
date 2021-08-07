@@ -1,6 +1,8 @@
 package test.dev.importantpeople.domain.entity.user
 
+import androidx.annotation.DrawableRes
 import org.threeten.bp.LocalDateTime
+import test.dev.importantpeople.R
 import java.util.*
 
 
@@ -44,9 +46,9 @@ data class CoordinatesEntity(
     val longitude: String,
 )
 
-enum class Gender {
-    MAN,
-    WOMAN;
+enum class Gender(@DrawableRes val drawableRes: Int) {
+    MAN(R.drawable.ic_male),
+    WOMAN(R.drawable.ic_female);
 
     companion object {
         fun fromString(string: String?) = when (string) {

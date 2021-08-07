@@ -43,7 +43,7 @@ class UserViewModel(
         _liveDataNavigation.value = UserNavigation.EMAIL(email).toEvent()
     }
 
-    fun onClickNavigation(username: String, latitude: String, longitude: String) {
-        _liveDataNavigation.value = UserNavigation.NAVIGATION(username, latitude, longitude).toEvent()
+    fun onClickNavigation(street: String, city: String, country: String) {
+        _liveDataNavigation.value = UserNavigation.NAVIGATION(street, city, country).toEvent()
     }
 }

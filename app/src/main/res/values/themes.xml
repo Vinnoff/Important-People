@@ -17,12 +17,16 @@
         <item name="windowNoTitle">true</item>
         <item name="textAllCaps">false</item>
         <item name="android:windowBackground">@color/dark_grey</item>
-        <item name="cardBackgroundColor">@color/dark_grey_light</item>
-        <item name="cardCornerRadius">20dp</item>
+        <item name="cardViewStyle">@style/Theme.ImportantPeople.cardViewStyle</item>
     </style>
 
     <style name="Theme.ImportantPeople.ShapeImageView.Circle" parent="">
         <item name="cornerSize">50%</item>
         <item name="background">@android:color/transparent</item>
+    </style>
+
+    <style name="Theme.ImportantPeople.cardViewStyle">
+        <item name="cardBackgroundColor">@color/dark_grey_light</item>
+        <item name="cardCornerRadius">20dp</item>
     </style>
 </resources>

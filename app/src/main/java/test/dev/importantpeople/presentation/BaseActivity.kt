@@ -55,7 +55,8 @@ fun BaseActivity.callNumber(number: String) {
     startActivity(Intent(Intent.ACTION_DIAL, uri))
 }
 
-fun BaseActivity.displayMap(lat: String, long: String, name: String? = null) {
-    val uri = "geo:0,0?q=$lat,$long($name)".toUri()
+fun BaseActivity.displayMap(street: String, city: String, country: String) {
+    val location = "$street $city $country".replace(' ', '+')
+    val uri = "geo:0,0?q=$location".toUri()
     startActivity(Intent(Intent.ACTION_VIEW, uri))
 }
